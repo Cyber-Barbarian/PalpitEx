@@ -209,7 +209,7 @@ Superuser created successfully.
 
 ## banco de dados
 
-- sempre que alterar o models, deletar migrations e :
+- sempre que alterar o models, deletar o banco de dados,  migrations e :
 $ python manage.py makemigrations palpitexApp
 
 $ python manage.py sqlmigrate palpitexApp 0001
