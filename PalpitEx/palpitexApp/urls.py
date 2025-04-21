@@ -1,0 +1,7 @@
+# palpitexApp/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('soma/', views.minha_view, name='minha_view'),
+]
