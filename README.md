@@ -206,3 +206,10 @@ Superuser created successfully.
 
 - em admin.py > Make the poll app modifiable in the admin
   https://docs.djangoproject.com/en/5.2/intro/tutorial02/
+
+## banco de dados
+
+- sempre que alterar o models, deletar migrations e :
+$ python manage.py makemigrations palpitexApp
+
+$ python manage.py sqlmigrate palpitexApp 0001

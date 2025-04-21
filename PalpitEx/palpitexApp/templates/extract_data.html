@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dados Extraídos</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dados Extraídos</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Data Pregão</th>
+                <th>Preço Abertura</th>
+                <th>Preço Máximo</th>
+                <th>Preço Mínimo</th>
+                <th>Preço Fechamento</th>
+                <th>Volume de Negócios</th>
+                <th>Dividendos</th>
+                <th>Sigla Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for dado in dados %}
+            <tr>
+                <td>{{ dado.index}}</td>
+                <td>{{ dado.data_pregao|date:"Y-m-d" }}</td>
+                <td>{{ dado.preco_abertura|floatformat:2 }}</td>
+                <td>{{ dado.preco_max|floatformat:2 }}</td>
+                <td>{{ dado.preco_min|floatformat:2 }}</td>
+                <td>{{ dado.preco_fechamento|floatformat:2 }}</td>
+                <td>{{ dado.vol_negocios }}</td>
+                <td>{{ dado.dividendos|floatformat:2 }}</td>
+                <td>{{ dado.sigla_acao }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
