@@ -75,3 +75,134 @@ No ambiente de seu projeto faça:
 $ pip freeze > requirements.txt
 No ambiente de produção, faça:
 $ pip install -r requirements.txt
+
+## Trabalhando no projeto
+- criei um folder de ETL dentro da pasta do app
+- criei um arquivo de teste [meu_codigo_teste.py](PalpitEx/palpitexApp/ETL/meu_codigo_teste.py)
+- Edite o arquivo views.py do seu aplicativo
+```python
+
+from django.http import HttpResponse
+from .ETL.meu_codigo_teste import soma
+
+def minha_view(request):
+    resultado = soma(3, 4)
+    return HttpResponse(f"O resultado da soma é: {resultado}")
+
+
+```
+- Configure a URL para a view: Edite o arquivo urls.py do seu aplicativo [palpitexApp/urls.py](PalpitEx/palpitexApp/url.py):
+
+```python
+# palpitexApp/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('soma/', views.minha_view, name='minha_view'),
+]
+```
+- Inclua as URLs do aplicativo no arquivo urls.py do projeto: Edite o arquivo [urls.py](PalpitEx/PalpitEx/urls.py) do seu projeto:
+
+```python
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('palpitex/', include('palpitexApp.urls'))
+]
+```
+
+- Execute as migrações iniciais: 
+$ python manage.py migrate
+- Inicie o servidor de desenvolvimento:
+$ python manage.py runserver
+- Acesse a URL no navegador: Abra o navegador e vá para http://127.0.0.1:8000/palpitex/soma/ para ver o resultado.
+
+## Templates
+- Dentro do nosso app vamos criar um diretório de Templates e dentro do settings.py vamos apontar para o template
+```python
+import os
+...
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # ...
+    },
+]
+
+```
+- criamos uma página padrão [index.html](PalpitEx/palpitexApp/templates/index.html)
+```html 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Primeiro Template Django</title>
+</head>
+<body>
+    <h1>Bem-vindo ao meu site!</h1>
+    <p>Este é um exemplo simples de um template Django.</p>
+</body>
+</html>
+```
+- No arquivo views.py do seu aplicativo, adicione o seguinte código:
+```python
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')
+
+```
+
+- No arquivo urls.py do seu aplicativo palpitexApp, adicione o seguinte código:
+
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+```
+
+- Execute as migrações iniciais: 
+$ python manage.py migrate
+- Inicie o servidor de desenvolvimento:
+$ python manage.py runserver
+- Acesse a URL no navegador: Abra o navegador e vá para http://127.0.0.1:8000/palpitex/soma/ para ver o resultado.
+
+- Inserindo Dados Dinâmicos
+Os templates no Django também permitem que você insira dados dinâmicos em suas páginas. Vamos criar um exemplo simples em que exibimos o nome de um usuário.
+
+Primeiro, atualize a view index no arquivo views.py:
+
+```python 
+def index(request):
+    nome_usuario = "Palhaço Pirulito"
+    return render(request, 'index.html', {'nome_usuario': nome_usuario})
+```
+
+- Agora, atualize o arquivo index.html para exibir o nome do usuário:
+```python
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Primeiro Template Django</title>
+</head>
+<body>
+    <h1>Bem-vindo ao meu site, {{ nome_usuario }}!</h1>
+    <p>Este é um exemplo simples de um template Django.</p>
+</body>
+</html>
+```
+
+## user
+
+$ python manage.py createsuperuser
+Username: CyberBarbarian
+Email address: 
+Password: teste@Django_Palpitex
+Password (again): teste@Django_Palpitex
+Superuser created successfully.
+
+- em admin.py > Make the poll app modifiable in the admin
+  https://docs.djangoproject.com/en/5.2/intro/tutorial02/
