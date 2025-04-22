@@ -6,6 +6,14 @@
 <body>
     <h1>Bem-vindo ao meu site, {{ nome_usuario }}!</h1>
     <p>Este é um exemplo simples de um template Django.</p>
+    <form action="{% url 'load_historic_data' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+            Carregar Dados Históricos
+        </button>
+    </form>
+
     
+
 </body>
 </html>

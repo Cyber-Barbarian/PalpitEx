@@ -213,3 +213,9 @@ Superuser created successfully.
 $ python manage.py makemigrations palpitexApp
 
 $ python manage.py sqlmigrate palpitexApp 0001
+
+obs: podemos executar a query diretamnete no banco de dados
+
+$ python manage.py migrate
+
+$ python manage.py runserver 

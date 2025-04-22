@@ -7,7 +7,7 @@ from datetime import datetime
 from ..models import DadosAcoes
 from django.db.models import Q
 
-def historic_data(tickers = ['PETR3.SA', 'PETR4.SA']):
+def historic_data(tickers = ['PETR3.SA', 'PETR4.SA', 'USIM5.SA', 'VALE3.SA']):
     # vOHLC - Open, High, Low, Close + Adj Close + Volume , neste caso). Que significam o preço de abertura, 
     #o preço máximo no dia, o preço mínimo no dia, o preço de fechamento do dia, o preço ajustado por eventos corporativos 
     #e o volume de contratos negociados no dia (seguindo a ordem do dataframe).
@@ -44,11 +44,16 @@ def historic_data(tickers = ['PETR3.SA', 'PETR4.SA']):
     # Obtendo os dados
     df_cotacoes = get_stock_data(tickers)
     df_cotacoes['data_pregao'] = df_cotacoes.index
+
+    
+    df_cotacoes= df_cotacoes.reset_index().drop('Date', axis=1)
+    df_cotacoes['index'] = df_cotacoes.index
+    
     
     if df_cotacoes is not None:
         # Renomeando as colunas
         df_cotacoes = df_cotacoes.rename(columns={
-            #"Date": "data_pregao", 
+            "index": "index", 
             "High": "preco_max", 
             "Low": "preco_min",
             "Open": "preco_abertura",
@@ -60,24 +65,28 @@ def historic_data(tickers = ['PETR3.SA', 'PETR4.SA']):
             "Stock Splits": "desdobramento"
         })
 
-        
         df_cotacoes = df_cotacoes.sort_values(by=['sigla_acao', 'data_pregao'])
-        df_cotacoes= df_cotacoes.reset_index().drop('Date', axis=1)
         print("verificação inicial")
         print(list(df_cotacoes.columns))
         print(df_cotacoes.head(20))
+        
 
 
         
         # Truncando a tabela antes de inserir novos dados
         print("\nLimpando a tabela DadosAcoes...")
         DadosAcoes.objects.all().delete()
+        # Reset the auto-increment counter
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'dados_acoes'")
         print("Tabela DadosAcoes limpa com sucesso!")
 
         # Salvando no banco de dados
         print("\nSalvando dados no banco de dados...")
         for _, row in df_cotacoes.iterrows():
             DadosAcoes.objects.create(
+                index=row['index'],
                 data_pregao=row['data_pregao'].date(),
                 preco_max=row['preco_max'],
                 preco_min=row['preco_min'],
@@ -96,13 +105,14 @@ def historic_data(tickers = ['PETR3.SA', 'PETR4.SA']):
         dados_banco = DadosAcoes.objects.all().order_by('sigla_acao', 'data_pregao')[:20]
         
         # Formatando a saída
-        print("\n{:<12} {:<10} {:<10} {:<10} {:<10} {:<15} {:<10}".format(
-            "Data", "Ação", "Abertura", "Máximo", "Mínimo", "Fechamento", "Volume"
+        print("\n{:<10} {:<12} {:<10} {:<10} {:<10} {:<10} {:<15} {:<10}".format(
+            "Index", "Data", "Ação", "Abertura", "Máximo", "Mínimo", "Fechamento", "Volume"
         ))
         print("-" * 80)
         
         for dado in dados_banco:
-            print("{:<12} {:<10} {:<10.2f} {:<10.2f} {:<10.2f} {:<15.2f} {:<10}".format(
+            print("{:<10} {:<12} {:<10} {:<10.2f} {:<10.2f} {:<10.2f} {:<15.2f} {:<10}".format(
+                dado.index,
                 dado.data_pregao.strftime('%Y-%m-%d'),
                 dado.sigla_acao,
                 dado.preco_abertura,
@@ -116,4 +126,4 @@ def historic_data(tickers = ['PETR3.SA', 'PETR4.SA']):
 
     return df_cotacoes
 
-historic_data()
+#historic_data()
