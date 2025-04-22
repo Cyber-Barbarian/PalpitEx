@@ -1,0 +1,106 @@
+/* Paleta de Cores do README */
+:root {
+    --azul-pastel: #AEC6CF;
+    --verde-pastel: #77DD77;
+    --rosa-pastel: #FFD1DC;
+    --lilas-pastel: #DDA0DD;
+    --amarelo-pastel: #FDFD96;
+    --pessego-pastel: #FFB347;
+    --menta-pastel: #AAF0D1;
+    --cinza-claro-pastel: #D3D3D3;
+    --cinza-escuro-pastel: #A9A9A9;
+    --azul-marinho-pastel: #8A9AAB;
+    --cinza-mais-escuro-pastel: #696969;
+    --azul-marinho-mais-escuro-pastel: #36454F;
+}
+
+/* Estilos Gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cinza-claro-pastel);
+    color: var(--azul-marinho-mais-escuro-pastel);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: var(--azul-marinho-mais-escuro-pastel);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Estilos para Tabelas */
+.table {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--azul-marinho-pastel);
+    color: white;
+    font-weight: 500;
+    border: none;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--menta-pastel);
+}
+
+.table tbody tr:hover {
+    background-color: var(--azul-pastel);
+}
+
+/* Estilos para Botões */
+.btn-primary {
+    background-color: var(--azul-marinho-pastel);
+    border-color: var(--azul-marinho-pastel);
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--azul-marinho-mais-escuro-pastel);
+    border-color: var(--azul-marinho-mais-escuro-pastel);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de voltar */
+.btn-voltar {
+    display: inline-block;
+    background-color: var(--azul-marinho-pastel);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-voltar:hover {
+    background-color: var(--azul-marinho-mais-escuro-pastel);
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilos para Formulários */
+.form-control:focus {
+    border-color: var(--azul-pastel);
+    box-shadow: 0 0 0 0.25rem rgba(174, 198, 207, 0.25);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .table-responsive {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+} 
